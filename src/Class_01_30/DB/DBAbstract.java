@@ -1,19 +1,18 @@
-package Class_01_30;
-
+package Class_01_30.DB;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class DBAbstract {
+public class DBAbstract implements IDBInterface {
     private Connection connection;   // The DB Connections
     private int numQueries;
     private String DBName;    // name of DB to connect to
     private String PWFilePath;  // File that contains the PW and USer
     private String PassW;
     private String UserId;
-    public DBAbstract(String DBName, String PWFilePath ){
+    public void init(String DBName, String PWFilePath ){
         this.DBName = DBName;
         this.PWFilePath = PWFilePath;
         this.setPW( PWFilePath );
@@ -29,7 +28,7 @@ public class DBAbstract {
             String dbInfo = "jdbc:mysql://" + this.DBName;
             System.out.printf( "dbInfo=%s, user=%s PW=%s", dbInfo, this.UserId, this.PassW );
             System.out.println(System.getProperty("java.class.path"));
-            connection = DriverManager.getConnection
+            this.connection = DriverManager.getConnection
                     ( dbInfo, this.UserId, this.PassW );
 
         } catch (SQLException e) {
@@ -44,7 +43,7 @@ public class DBAbstract {
         // Create a statement
         ResultSet resultSet = null;
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = this.connection.createStatement();
             System.out.printf("SQL=%s", SQL);
             resultSet = statement.executeQuery(SQL);
         } catch (Exception e){
@@ -115,9 +114,13 @@ public class DBAbstract {
         }
     }
     public HashMap<String, String> selectByIdAsMap(String tableName, int id) throws SQLException {
+        System.out.printf("\n FLAG1 id=%s", id);
         HashMap<String, String> resultMap = new HashMap<>();
         String query = "SELECT * FROM " + tableName + " WHERE id = ?";
-        System.out.printf("\nSQLL=%s", query);
+        System.out.printf("\nSQL=%s", query);
+        if ( connection == null ) {
+            System.out.printf("\n Null Connect");
+        }
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
 
@@ -132,9 +135,14 @@ public class DBAbstract {
                         resultMap.put(columnName, value);
                     }
                 }
+            } catch ( Exception e ) {
+                System.out.printf("\n Fail1 e=%s", e.toString());
             }
+        } catch ( Exception e ) {
+            System.out.printf("\n Fail2 e=%s", e.toString());
         }
 
         return resultMap;
     }
 }
+

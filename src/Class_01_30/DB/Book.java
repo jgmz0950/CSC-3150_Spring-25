@@ -1,5 +1,4 @@
-package Class_01_30;
-
+package Class_01_30.DB;
 public class Book {
     private int id;
     private String title;
