@@ -1,10 +1,9 @@
-package Class_02_04;
+package CLASS_02_11;
 
 import java.util.HashMap;
-import java.util.Random;
 
 public class DBOfATMUsers {
-    public PinUser getThisUserRecord( String pin ){
+    public PinUser getThisUserRecord(String pin ){
         HashMap<String, PinUser> DBOfATMUsers = getAllUserData();
         if ( DBOfATMUsers.containsKey(pin) ){
             return DBOfATMUsers.get(pin);

@@ -40,6 +40,7 @@ class BankAccountTest {
         //Assert
     }
 
+    
     @ParameterizedTest
     @CsvSource({
             "-0.99",
@@ -51,6 +52,7 @@ class BankAccountTest {
         IllegalArgumentException err = assertThrows(IllegalArgumentException.class, () -> ba.deposit(amount));
         assertEquals("Deposit amount must be greater than zero.", err.getMessage());
     }
+
 
     @ParameterizedTest
     @CsvSource({

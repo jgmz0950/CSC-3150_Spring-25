@@ -1,4 +1,4 @@
-package Class_02_04;
+package CLASS_02_11;
 
 public class PinUser {
     String pin;
@@ -6,7 +6,6 @@ public class PinUser {
     String lastName;
     double balance;
     String msg = "";
-
     public PinUser(String pin, String firstName, String lastName, double balance) {
         this.pin = pin;
         this.firstName = firstName;
